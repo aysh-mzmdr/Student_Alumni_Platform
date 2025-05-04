@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
+import Home from "./HomePage/Home.jsx"
+import Login from "./HomePage/Login.jsx"
+import Signup from "./HomePage/Signup.jsx"
 
-const SERVER_PORT=import.meta.env.VITE_SERVER_PORT;
+import {BrowserRouter as Router,Routes, Route} from "react-router-dom"
 
 function App(){
-  const [message123,setMessage] = useState("")
-  useEffect(() => {
-    fetch(`http://localhost:${SERVER_PORT}/api/message`)
-    .then(response => response.json())
-    .then(data => setMessage(data.message))
-    .catch(err => console.log(err))
-  },[])
-
+  
   return(
-    <h1>Hello {message123} </h1>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/signup" element={<Signup/>}/>
+        </Routes>
+      </Router>
   )
 }
 
