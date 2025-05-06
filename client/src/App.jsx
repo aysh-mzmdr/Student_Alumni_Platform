@@ -1,7 +1,7 @@
 import Home from "./HomePage/Home.jsx"
 import Login from "./HomePage/Login.jsx"
 import Signup from "./HomePage/Signup.jsx"
-import Dashboard from "./Profile/DashBoard.jsx"
+import Dashboard from "./ProfilePage/Dashboard.jsx"
 
 import {BrowserRouter as Router,Routes, Route} from "react-router-dom"
 
