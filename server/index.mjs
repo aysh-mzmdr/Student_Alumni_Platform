@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import passport from "passport"
 import session from "express-session"
 import "./strategies.mjs"
+import pool from "../db/database.mjs"
+import bcrypt, { genSaltSync } from "bcrypt"
 
 dotenv.config({path:"../.env"})
 
@@ -26,6 +28,20 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 const SERVER_PORT=process.env.SERVER_PORT;
+
+app.post("/auth/signup", async (request,response) => {
+    const {username,password,firstname,lastname,college,city,state,batch,role} = request.body;
+    const salt=genSaltSync(10)
+    const hashedPassword=bcrypt.hashSync(password,salt)
+    try{
+        await pool.query("INSERT INTO users VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7,$8,$9)",[username,hashedPassword,firstname,lastname,college,city,state,batch,role])
+        return response.sendStatus(200);
+    }
+    catch(err){
+        console.log(err)
+        return response.sendStatus(500);
+    }
+})
 
 app.post("/auth/login",passport.authenticate("local"),(request,response) => {
     return response.sendStatus(200);
