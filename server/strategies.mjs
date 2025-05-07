@@ -1,21 +1,15 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
-
-const abcUsers=[
-    {id:0,username:"Ravi",password:"1234"},
-    {id:1,username:"Prem",password:"7890"},
-    {id:2,username:"Mohan",password:"qwerty"},
-    {id:3,username:"Animesh",password:"abcd"},
-    {id:4,username:"Yash",password:"password123"}
-]
+import pool from "../db/database.mjs"
 
 passport.use(
-    new Strategy((username,password,done) => {
+    new Strategy(async (username,password,done) => {
         try{
-            const findUser=abcUsers.find((user) => user.username===username);
-            if(!findUser) throw new Error("Error");
-            if(findUser.password!==password) throw new Error("Error");
-            done(null,findUser);
+            const findUser=await pool.query("SELECT * FROM users WHERE username = $1",[username]);
+            const User=findUser.rows[0];
+            if(!User) throw new Error("Error");
+            if(User.password!==password) throw new Error("Error");
+            done(null,User);
         }
         catch(err){
             done(err,null)
@@ -24,14 +18,15 @@ passport.use(
 )
 
 passport.serializeUser((user,done) => {
-    done(null,user.id)
+    done(null,user.uid)
 })
 
-passport.deserializeUser((id,done) => {
+passport.deserializeUser(async (uid,done) => {
     try{
-        const findUser=abcUsers.find(user => user.id==id)
-        if(!findUser) throw new Error("User Not found");
-        done(null,findUser);
+        const findUser=await pool.query("SELECT * FROM users WHERE uid = $1",[uid])
+        const User=findUser.rows[0];
+        if(!User) throw new Error("User Not found");
+        done(null,User);
     }
     catch(err){
         done(err,null)
