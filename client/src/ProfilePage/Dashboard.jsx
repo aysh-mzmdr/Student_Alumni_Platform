@@ -3,6 +3,11 @@ import style from "./stylesheet.module.css"
 
 function Dashboard(){
     const navigate=useNavigate()
+    const profileNavigate=() => navigate("/profile")
+    const logoutNavigate=() => navigate("/")
+    const universityNavigate=() => navigate("/university")
+    const alumniNavigate=() => navigate("/alumni")
+    const forumNavigate=() => navigate("/forum")
 
     const SERVER_PORT=import.meta.env.VITE_SERVER_PORT;
 
@@ -10,7 +15,7 @@ function Dashboard(){
         try{
             const response=await fetch(`http://localhost:${SERVER_PORT}/auth/logout`,{method:"POST",credentials:"include"})
             if(response.ok)
-                navigate("/")
+                logoutNavigate();
             else if(!response.ok)
                 throw new Error("Error")
         }
@@ -21,7 +26,11 @@ function Dashboard(){
     return(
         <>
             <h1 className={style.head}>This is Dashboard</h1>
-            <button type="submit" onClick={logoutHandler}>logout</button>
+            <button onClick={profileNavigate}>Profile</button>
+            <button onClick={universityNavigate}>Universities</button>
+            <button onClick={alumniNavigate}>Alumnis</button>
+            <button onClick={forumNavigate}>Forum</button>
+            <button onClick={logoutHandler}>Logout</button>
         </>
     )
 }
