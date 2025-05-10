@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "./stylesheet.module.css";
 
 function Home() {
@@ -36,7 +37,9 @@ function Home() {
                     Aluminous
                 </h1>
                 <p className={styles.tagline}>Because every student deserves a mentor, and every alumni wants to give back</p>
-                <button className={styles.ctaButton}> Start Connecting!</button>
+                <Link to="/login" className={styles.ctaButton}>
+                    Start Connecting!
+                </Link>
             </section>
 
             {/* 

@@ -1,0 +1,21 @@
+body {
+    background-color: rgb(29, 30, 35);
+}
+
+.backColour {
+    background-color: rgb(92, 255, 179);
+}
+
+.college-name {
+    display: absolute;
+    width: 40%;
+    align-content: left;
+}
+
+h2 {
+    color: white;
+}
+
+.bar {
+    display: inline;
+}
