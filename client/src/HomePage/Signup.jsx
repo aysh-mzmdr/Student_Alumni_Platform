@@ -15,11 +15,15 @@ function Signup(){
     const[college,setCollege]=useState("")
     const[city,setCity]=useState("")
     const[state,setState]=useState("")
-    const[role,setRole]=useState("")
     const[batch,setBatch]=useState("")
+    const[role,setRole]=useState("")
+    const[country,setCountry]=useState("")
+    const[department,setDepartment]=useState("")
 
     const handleSignup = async (e) => {
         e.preventDefault();
+        if(department=="")
+            setDepartment("Other")
         try{
             const response=await fetch(`http://localhost:${SERVER_PORT}/auth/signup`,{
                 method:"POST",
@@ -27,7 +31,7 @@ function Signup(){
                 headers:{
                     "Content-type":"application/json"
                 },
-                body: JSON.stringify({username,password,firstname,lastname,college,city,state,batch,role})
+                body: JSON.stringify({username,password,firstname,lastname,college,city,state,batch,role,country,department})
             })
             if(response.ok){
                 navigate("/")
@@ -54,6 +58,8 @@ function Signup(){
                 <input type="text" value={state} onChange={(e) => setState(e.target.value)} placeholder="State" required></input>
                 <input type="text" value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" required></input>
                 <input type="text" value={batch} onChange={(e) => setBatch(e.target.value)} placeholder="Batch" required></input>
+                <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Country" required></input>
+                <input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Department" required></input>
                 <button type="submit">Signup</button>
             </form>
         </>
